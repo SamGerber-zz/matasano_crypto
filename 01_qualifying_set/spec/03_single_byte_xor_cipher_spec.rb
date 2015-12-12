@@ -2,6 +2,7 @@ require '01_qualifying_set'
 
 ICEICEBABYLYRICS    = File.readlines('assets/iib_lyrics.txt').join
 UNDERPRESSURELYRICS = File.readlines('assets/up_lyrics.txt').join
+HEXSTRINGS          = File.readlines('assets/4.txt')
 
 describe "the single-byte XOR decrypter" do
   it "decrypts a binary string" do
@@ -85,5 +86,17 @@ describe "the ice ice baby lyric finder" do
     sorted_messages = similar_string_finder(UNDERPRESSURELYRICS, possible_messages)
     found_message = sorted_messages.first.first
     expect(found_message).to eq(actual_message)
+  end
+
+  it "finds the iciest of 327x128 strings" do
+    actual_message = "Now that the party is jumping\n"
+    possible_messages = HEXSTRINGS.collect do |hex_string|
+      brute_force_attacker(hex_string)
+    end
+    possible_messages.flatten!(1)
+    sorted_messages = similar_string_finder(ICEICEBABYLYRICS, possible_messages)
+    found_message = sorted_messages.first.first
+    expect(found_message).to eq(actual_message)
+    puts sorted_messages.first(10)
   end
 end
