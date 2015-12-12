@@ -1,4 +1,4 @@
-require '01_convert_hex_to_base64'
+require '01_qualifying_set'
 
 describe "the hex string parser" do
   it "converts valid hex string to binary string" do
